@@ -1,0 +1,133 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title> Monty Hall Problem - Victor Ribeiro</title>
+<style>
+
+BODY		{background-color:rgb(255,255,255); color:rgb(0,0,0); font-family:arial; font-size:12px;}
+a:link		{text-decoration:none; color:red;}
+a:visited	{text-decoration:none; color:red;}
+a:hover		{text-decoration:none; color:black;}
+
+#caixa		{color:black; background-color:white; margin-left:10px;}
+#caixa02	{color:black; background-color:white; margin-left:10px;}
+#caixa03	{color:black; background-color:white; border:solid 1px black; width:400px; max-width: 90%; height:300px; margin-left:10px;}
+#door01	{border:solid 1px black; color:black; background-color:gray; width:60px; float:left; height:80px; margin-left:10px;}
+#door02	{border:solid 1px black; color:black; background-color:gray; width:60px; float:left; height:80px; margin-left:10px;}
+#door03	{border:solid 1px black; color:black; background-color:gray; width:60px; float:left; height:80px; margin-left:10px;}
+
+#fim		{margin-left:10px; float:left;}
+
+</style>
+
+</head>
+<body>
+<script>
+inicio = 1;
+jogo = 0;
+ganhou = 0;
+perdeu = 0;
+trocou = 0;
+naotrocou = 0;
+
+function criajogo(){
+document.getElementById('caixa').innerHTML = " ";
+document.getElementById("portas").innerHTML = "<div id=\"door01\" onclick=\"comecar(\'door01\');\"> Porta 01 </div><div id=\"door02\" onclick=\"comecar(\'door02\');\"> Porta 02 </div><div id=\"door03\" onclick=\"comecar(\'door03\');\"> Porta 03 </div>";
+
+}
+
+
+function comecar(porta_escolhida){
+inicio = 1;
+if(porta_escolhida == 'door01'){ porta = 1; }
+if(porta_escolhida == 'door02'){ porta = 2; }
+if(porta_escolhida == 'door03'){ porta = 3; }
+
+if(inicio == 1){
+premio = Math.round(Math.random() * 2 + 1);
+tentacao = Math.round(Math.random() * 2 + 1);
+while(tentacao == premio || tentacao == porta){
+tentacao = Math.round(Math.random() * 2 + 1);
+}
+porta_tentacao = "door0"+tentacao;
+trocar = Math.round(Math.random() * 2 + 1);
+while(trocar == tentacao || trocar == porta){
+trocar = Math.round(Math.random() * 2 + 1);
+}
+porta_trocar = "door0"+trocar;
+
+document.getElementById(porta_escolhida).style.backgroundColor = "red";
+document.getElementById(porta_tentacao).style.backgroundColor = "white";
+document.getElementById('caixa').innerHTML = "You choose "+porta_escolhida+". The "+porta_tentacao+" is empty.";
+document.getElementById('caixa02').innerHTML = "Would you like to switch ports? If yes, click another door, if not, click the choosen door.";
+}
+if(inicio == 1){
+document.getElementById(porta_tentacao).onclick = function aberta(){
+alert('This door is already open!');
+}
+document.getElementById(porta_escolhida).onclick = function resultado(){
+if(premio == porta){ 
+document.getElementById('caixa').innerHTML = "You choosed "+porta_escolhida+" and won!"; 
+document.getElementById('caixa02').innerHTML = " "; 
+ganhou++; 
+naotrocou++; 
+jogo++; 
+reseta(); 
+} else { 
+document.getElementById('caixa').innerHTML = "You choosed "+porta_escolhida+" and lost!"; 
+document.getElementById('caixa02').innerHTML = " "; 
+perdeu++; 
+naotrocou++; 
+jogo++; 
+reseta();
+}
+}
+document.getElementById(porta_trocar).onclick = function mudou(){
+document.getElementById(porta_trocar).style.backgroundColor = "red";
+document.getElementById(porta_escolhida).style.backgroundColor = "gray";
+if(premio == trocar){ 
+document.getElementById('caixa').innerHTML = "You switched to "+porta_trocar+" and won!"; 
+document.getElementById('caixa02').innerHTML = " "; 
+ganhou++; 
+trocou++; 
+jogo++; 
+reseta(); 
+} else { 
+document.getElementById('caixa').innerHTML = "You switched to "+porta_trocar+" and lost!"; 
+document.getElementById('caixa02').innerHTML = " "; 
+perdeu++; 
+trocou++; 
+jogo++; 
+reseta();
+}
+}
+}
+inicio = 0;
+}
+
+function reseta(){
+inicio = 0;
+document.getElementById("portas").innerHTML = "<div id=\"fim\"><big><b>Game Over!</b></big> <br><br><a href=\"javascript:criajogo();\"> Play again!</a></div>";
+document.getElementById('caixa02').innerHTML = "<br><br><br><b>Statistics:</b><br>Total games: "+jogo;
+document.getElementById('caixa02').innerHTML += "<br>Times you switched doors: "+trocou;
+document.getElementById('caixa02').innerHTML += "<br>Times you didn't swicht doors: "+naotrocou;
+document.getElementById('caixa02').innerHTML += "<br>Times you won: "+ganhou;
+document.getElementById('caixa02').innerHTML += "<br>Times you lost: "+perdeu;
+}
+
+</script>
+
+
+<div id="portas">
+<div id="door01" onClick="comecar('door01');"> Door 1 </div>
+<div id="door02" onClick="comecar('door02');"> Door 2 </div>
+<div id="door03" onClick="comecar('door03');"> Door 3 </div>
+</div>
+<br><br><br><br><br><br>
+<div id="caixa03">
+<div id="caixa"> Choose a door: </div>
+<div id="caixa02"> &nbsp; </div>
+</div>
+
+</body>
+</html>
