@@ -4,7 +4,7 @@ Implementation of the famouse [Monty Hall problem](https://en.wikipedia.org/wiki
 
 ![Screenshot](screenshot.png)
 
-LIVE VERSION HERE
+[LIVE VERSION HERE](https://victorqribeiro.github.io/montyhall/)
 
 # About
 
